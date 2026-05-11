@@ -141,3 +141,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Keep source placeholders for future log parsers.
+!src/logs/
+!src/logs/README.md
