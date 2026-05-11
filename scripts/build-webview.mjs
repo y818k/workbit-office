@@ -1,24 +1,45 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { spawnSync } from 'node:child_process';
+import { join } from 'node:path';
+import { root, runInstalledTool, assertOutputs } from './build-utils.mjs';
 
-const root = dirname(fileURLToPath(new URL('../package.json', import.meta.url)));
-const viteBin = join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'vite.cmd' : 'vite');
+const webviewOutputs = ['dist/webview/index.html'];
 
-if (existsSync(viteBin)) {
-  const result = spawnSync(viteBin, ['build'], { cwd: root, stdio: 'inherit' });
-  process.exit(result.status ?? 1);
+if (runInstalledTool('vite', ['build']) && normalizeViteIndex()) {
+  console.log('Vite build completed successfully.');
+} else {
+  console.warn('Vite build did not complete successfully; generating fallback static webview bundle.');
+  generateFallbackWebview();
 }
 
-const outDir = join(root, 'dist', 'webview');
-const assetsDir = join(outDir, 'assets');
-mkdirSync(assetsDir, { recursive: true });
+assertOutputs(webviewOutputs, 'webview build');
 
-const css = readFileSync(join(root, 'src', 'webview', 'styles', 'app.css'), 'utf8');
-writeFileSync(join(assetsDir, 'style.css'), css);
+function normalizeViteIndex() {
+  const indexPath = join(root, 'dist', 'webview', 'index.html');
+  if (existsSync(indexPath)) {
+    return true;
+  }
 
-const js = String.raw`
+  const nestedIndexPath = join(root, 'dist', 'webview', 'src', 'webview', 'index.html');
+  if (!existsSync(nestedIndexPath)) {
+    console.error('Vite did not generate dist/webview/index.html or the expected nested index.html.');
+    return false;
+  }
+
+  const html = readFileSync(nestedIndexPath, 'utf8')
+    .replace(/(src|href)="(?:\.\.\/)+assets\//g, '$1="assets/');
+  writeFileSync(indexPath, html);
+  return true;
+}
+
+function generateFallbackWebview() {
+  const outDir = join(root, 'dist', 'webview');
+  const assetsDir = join(outDir, 'assets');
+  mkdirSync(assetsDir, { recursive: true });
+
+  const css = readFileSync(join(root, 'src', 'webview', 'styles', 'app.css'), 'utf8');
+  writeFileSync(join(assetsDir, 'style.css'), css);
+
+  const js = String.raw`
 const AGENT_STATES = ['idle', 'thinking', 'editing', 'testing', 'waiting', 'error'];
 const GRID_COLUMNS = 12;
 const GRID_ROWS = 10;
@@ -81,6 +102,7 @@ setInterval(() => { agents = agents.map((agent, index) => ({ ...agent, state: AG
 vscode?.postMessage({ type: 'ready' });
 render();
 `;
-writeFileSync(join(assetsDir, 'main.js'), js);
-writeFileSync(join(outDir, 'index.html'), '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Workbit Office</title><link rel="stylesheet" href="assets/style.css"></head><body><div id="root"></div><script src="assets/main.js"></script></body></html>');
-console.warn('vite was not found; generated a fallback static webview bundle. Run npm install to enable the React + Vite production build.');
+  writeFileSync(join(assetsDir, 'main.js'), js);
+  writeFileSync(join(outDir, 'index.html'), '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Workbit Office</title><link rel="stylesheet" href="assets/style.css"></head><body><div id="root"></div><script src="assets/main.js"></script></body></html>');
+  console.warn('Generated fallback static webview bundle.');
+}

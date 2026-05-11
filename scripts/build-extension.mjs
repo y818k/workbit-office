@@ -1,19 +1,22 @@
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { spawnSync } from 'node:child_process';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { root, runInstalledTool, assertOutputs } from './build-utils.mjs';
 
-const root = dirname(fileURLToPath(new URL('../package.json', import.meta.url)));
-const tscBin = join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'tsc.cmd' : 'tsc');
+const extensionOutputs = ['dist/extension/extension.js'];
 
-if (existsSync(tscBin)) {
-  const result = spawnSync(tscBin, ['-p', 'tsconfig.extension.json'], { cwd: root, stdio: 'inherit' });
-  process.exit(result.status ?? 1);
+if (runInstalledTool('tsc', ['-p', 'tsconfig.extension.json'], extensionOutputs)) {
+  console.log('TypeScript extension build completed successfully.');
+} else {
+  console.warn('TypeScript extension build did not complete successfully; generating fallback CommonJS extension bundle.');
+  generateFallbackExtension();
 }
 
-const outDir = join(root, 'dist', 'extension');
-mkdirSync(outDir, { recursive: true });
-const js = String.raw`
+assertOutputs(extensionOutputs, 'extension build');
+
+function generateFallbackExtension() {
+  const outDir = join(root, 'dist', 'extension');
+  mkdirSync(outDir, { recursive: true });
+  const js = String.raw`
 const fs = require('node:fs');
 const path = require('node:path');
 const vscode = require('vscode');
@@ -77,5 +80,6 @@ function getNonce() {
 }
 module.exports = { activate, deactivate };
 `;
-writeFileSync(join(outDir, 'extension.js'), js);
-console.warn('local TypeScript dependencies were not found; generated a fallback CommonJS extension bundle. Run npm install to enable the TypeScript build.');
+  writeFileSync(join(outDir, 'extension.js'), js);
+  console.warn('Generated fallback CommonJS extension bundle.');
+}
