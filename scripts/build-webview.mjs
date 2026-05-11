@@ -1,17 +1,17 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { assertOutputs, root, runInstalledTool } from './build-utils.mjs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
-const webviewBuiltWithVite = runInstalledTool('vite', ['build'], ['dist/webview/index.html']);
+const root = dirname(fileURLToPath(new URL('../package.json', import.meta.url)));
+const viteBin = join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'vite.cmd' : 'vite');
 
-if (!webviewBuiltWithVite) {
-  writeFallbackWebviewBundle();
+if (existsSync(viteBin)) {
+  const result = spawnSync(viteBin, ['build'], { cwd: root, stdio: 'inherit' });
+  process.exit(result.status ?? 1);
 }
 
-function writeFallbackWebviewBundle() {
-  console.warn('[build:webview] Running fallback static webview build.');
-
-  const outDir = join(root, 'dist', 'webview');
+const outDir = join(root, 'dist', 'webview');
 const assetsDir = join(outDir, 'assets');
 mkdirSync(assetsDir, { recursive: true });
 
@@ -83,6 +83,4 @@ render();
 `;
 writeFileSync(join(assetsDir, 'main.js'), js);
 writeFileSync(join(outDir, 'index.html'), '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Workbit Office</title><link rel="stylesheet" href="assets/style.css"></head><body><div id="root"></div><script src="assets/main.js"></script></body></html>');
-assertOutputs(['dist/webview/index.html'], 'fallback webview build');
-console.warn('[build:webview] Generated fallback static webview bundle at dist/webview/index.html. Install or fix Vite to enable the React + Vite production build.');
-}
+console.warn('vite was not found; generated a fallback static webview bundle. Run npm install to enable the React + Vite production build.');

@@ -1,17 +1,17 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { assertOutputs, root, runInstalledTool } from './build-utils.mjs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
-const extensionBuiltWithTsc = runInstalledTool('tsc', ['-p', 'tsconfig.extension.json'], ['dist/extension/extension.js']);
+const root = dirname(fileURLToPath(new URL('../package.json', import.meta.url)));
+const tscBin = join(root, 'node_modules', '.bin', process.platform === 'win32' ? 'tsc.cmd' : 'tsc');
 
-if (!extensionBuiltWithTsc) {
-  writeFallbackExtensionBundle();
+if (existsSync(tscBin)) {
+  const result = spawnSync(tscBin, ['-p', 'tsconfig.extension.json'], { cwd: root, stdio: 'inherit' });
+  process.exit(result.status ?? 1);
 }
 
-function writeFallbackExtensionBundle() {
-  console.warn('[build:extension] Running fallback CommonJS extension build.');
-
-  const outDir = join(root, 'dist', 'extension');
+const outDir = join(root, 'dist', 'extension');
 mkdirSync(outDir, { recursive: true });
 const js = String.raw`
 const fs = require('node:fs');
@@ -78,6 +78,4 @@ function getNonce() {
 module.exports = { activate, deactivate };
 `;
 writeFileSync(join(outDir, 'extension.js'), js);
-assertOutputs(['dist/extension/extension.js'], 'fallback extension build');
-console.warn('[build:extension] Generated fallback CommonJS extension bundle at dist/extension/extension.js. Install or fix TypeScript to enable the normal TypeScript build.');
-}
+console.warn('local TypeScript dependencies were not found; generated a fallback CommonJS extension bundle. Run npm install to enable the TypeScript build.');
