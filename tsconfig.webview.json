@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": ["vite/client"]
+  },
+  "include": ["src/webview/**/*.ts", "src/webview/**/*.tsx", "src/game/**/*.ts", "src/agents/**/*.ts", "src/furniture/**/*.ts", "src/localization/**/*.ts", "src/shared/**/*.ts"]
+}

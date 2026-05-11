@@ -1,0 +1,50 @@
+{
+  "name": "workbit-office",
+  "displayName": "Workbit Office",
+  "description": "Visualize AI coding agents as a cozy pixel-art office inside VS Code.",
+  "version": "0.1.0",
+  "publisher": "workbit",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:workbitOffice.open"
+  ],
+  "main": "./dist/extension/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "workbitOffice.open",
+        "title": "Workbit Office: Open Office"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "npm run build:webview && npm run build:extension",
+    "build:extension": "node scripts/build-extension.mjs",
+    "build:webview": "node scripts/build-webview.mjs",
+    "check-types": "tsc -p tsconfig.webview.json --noEmit && tsc -p tsconfig.extension.json --noEmit",
+    "compile": "npm run build",
+    "watch": "concurrently \"tsc -p tsconfig.extension.json --watch\" \"vite build --watch\"",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/vscode": "^1.90.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^8.2.2",
+    "eslint": "^9.6.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
