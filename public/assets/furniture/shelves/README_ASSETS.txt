@@ -7,3 +7,5 @@ bookshelf_right_02.png
 cabinet_front_01.png
 cabinet_left_01.png
 cabinet_right_01.png
+
+bookshelf_wood_01.png
