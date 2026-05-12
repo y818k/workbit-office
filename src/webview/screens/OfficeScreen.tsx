@@ -12,7 +12,6 @@ const WALL_TILE_SOURCES = [
 ] as const;
 const WORKDESK_SRC = getAssetSrc('furniture/workdesk/workdesk_wood_01.png');
 const CELL_SIZE_PX = 64;
-const RUG_EXTRA_HEIGHT_PX = 32;
 const BOOKSHELF_IMAGE_STYLE: CSSProperties = { width: '176px', height: '163px' };
 
 type FixedDecorItem = {
@@ -30,7 +29,7 @@ const FIXED_DECOR: FixedDecorItem[] = [
     name: 'Blue Rug',
     kind: 'rug',
     src: getAssetSrc('room/rugs/rug_blue_01.png'),
-    position: { x: 2, y: 5 },
+    position: { x: 2, y: 4 },
     size: { width: 8, height: 3 }
   },
   {
@@ -57,7 +56,7 @@ function getFixedDecorStyle(item: FixedDecorItem): CSSProperties {
     left: item.position.x * CELL_SIZE_PX,
     top: item.position.y * CELL_SIZE_PX,
     width: item.size.width * CELL_SIZE_PX,
-    height: item.size.height * CELL_SIZE_PX + (item.kind === 'rug' ? RUG_EXTRA_HEIGHT_PX : 0),
+    height: item.size.height * CELL_SIZE_PX,
     zIndex: item.kind === 'rug' ? 0 : 1
   };
 }

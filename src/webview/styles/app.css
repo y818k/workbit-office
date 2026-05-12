@@ -314,14 +314,13 @@ select {
 }
 
 .fixed-decor-rug {
-  place-items: end stretch;
-  overflow: visible;
+  place-items: stretch;
+  overflow: hidden;
 }
 
 .fixed-decor-rug .fixed-decor-image {
-  display: block;
-  object-fit: contain;
-  object-position: bottom center;
+  object-fit: fill;
+  object-position: center;
 }
 
 .fixed-decor-bookshelf .fixed-decor-image {
