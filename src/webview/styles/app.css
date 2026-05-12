@@ -282,16 +282,24 @@ select {
   border-bottom: 1px solid rgba(61, 33, 21, 0.18);
 }
 
-.agent-layer {
-  z-index: 3;
+.fixed-decor-bookshelf .fixed-decor-image {
+  width: calc(100% + 18px);
+  height: calc(100% + 18px);
+  object-position: bottom center;
+  filter: drop-shadow(0 8px 0 rgba(42, 24, 16, 0.22));
 }
 
-.furniture-layer {
-  z-index: 4;
+.fixed-decor-plant {
+  z-index: 2;
+  align-items: end;
+  justify-items: center;
 }
 
-.speech-layer {
-  z-index: 5;
+.fixed-decor-plant .fixed-decor-image {
+  width: calc(var(--cell) * 1.15);
+  height: calc(var(--cell) * 1.75);
+  object-position: bottom center;
+  filter: drop-shadow(0 7px 0 rgba(42, 24, 16, 0.2));
 }
 
 .furniture {
