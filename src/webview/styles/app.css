@@ -263,6 +263,74 @@ select {
   opacity: 0.16;
 }
 
+.floor-layer {
+  z-index: 0;
+}
+
+.floor-tile,
+.wall-tile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+.side-wall-layer {
+  z-index: 3;
+}
+
+.side-wall {
+  --side-wall-image: none;
+  position: absolute;
+  top: 0;
+  width: var(--side-wall-width);
+  height: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 225, 170, 0.18), rgba(67, 40, 28, 0.2)),
+    #6a4a37;
+  border-color: rgba(39, 23, 17, 0.72);
+  border-style: solid;
+  box-shadow: inset 0 0 16px rgba(35, 20, 15, 0.42);
+}
+
+.side-wall::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--side-wall-image);
+  background-repeat: repeat;
+  background-size: var(--cell) var(--cell);
+  opacity: 0.2;
+}
+
+.side-wall-left {
+  left: 0;
+  border-right-width: 3px;
+}
+
+.side-wall-right {
+  right: 0;
+  border-left-width: 3px;
+}
+
+.side-wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 234, 183, 0.1), transparent 48%, rgba(33, 19, 14, 0.28));
+}
+
+.grid-layer {
+  z-index: 1;
+  opacity: 0.035;
+  transition: opacity 160ms ease;
+}
+
+.office-board.is-editing .grid-layer {
+  opacity: 0.16;
+}
+
 .grid-cell {
   border-right: 1px solid rgba(255, 224, 170, 0.22);
   border-bottom: 1px solid rgba(0, 0, 0, 0.28);
