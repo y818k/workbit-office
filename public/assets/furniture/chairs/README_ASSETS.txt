@@ -1,0 +1,9 @@
+chair_front_01.png
+chair_left_01.png
+chair_right_01.png
+chair_green_front_01.png
+chair_green_left_01.png
+chair_green_right_01.png
+chair_blue_front_01.png
+chair_blue_left_01.png
+chair_blue_right_01.png

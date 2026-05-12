@@ -1,0 +1,7 @@
+effect_shadow_soft.png
+effect_select_tile.png
+effect_place_valid.png
+effect_place_invalid.png
+effect_level_up.png
+effect_coin_gain.png
+effect_error_marker.png

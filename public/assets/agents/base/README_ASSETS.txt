@@ -1,0 +1,12 @@
+agent_front_idle.png
+agent_back_idle.png
+agent_left_idle.png
+agent_right_idle.png
+agent_front_walk_01.png
+agent_front_walk_02.png
+agent_back_walk_01.png
+agent_back_walk_02.png
+agent_left_walk_01.png
+agent_left_walk_02.png
+agent_right_walk_01.png
+agent_right_walk_02.png

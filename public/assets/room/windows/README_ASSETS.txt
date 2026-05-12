@@ -1,0 +1,3 @@
+window_left_01.png
+window_right_01.png
+window_large_01.png

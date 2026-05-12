@@ -1,0 +1,9 @@
+bookshelf_front_01.png
+bookshelf_left_01.png
+bookshelf_right_01.png
+bookshelf_front_02.png
+bookshelf_left_02.png
+bookshelf_right_02.png
+cabinet_front_01.png
+cabinet_left_01.png
+cabinet_right_01.png
