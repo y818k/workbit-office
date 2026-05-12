@@ -21,15 +21,6 @@ type FixedDecorItem = {
   size: { width: number; height: number };
 };
 
-function getFixedDecorClassName(kind: FixedDecorItem['kind']): string {
-  return [
-    'fixed-decor',
-    `fixed-decor-${kind}`,
-    `fixed-decor--${kind}`,
-    kind === 'bookshelf' ? 'fixed-decor--shelf' : ''
-  ].filter(Boolean).join(' ');
-}
-
 const FIXED_DECOR: FixedDecorItem[] = [
   {
     id: 'rug-blue-01',
@@ -117,7 +108,7 @@ export function OfficeScreen({ agents, furniture, t }: OfficeScreenProps) {
           <div className="fixed-decor-layer" aria-hidden="true">
             {FIXED_DECOR.map((item) => (
               <div
-                className={getFixedDecorClassName(item.kind)}
+                className={`fixed-decor fixed-decor-${item.kind}`}
                 key={item.id}
                 style={{
                   gridColumn: `${item.position.x + 1} / span ${item.size.width}`,
