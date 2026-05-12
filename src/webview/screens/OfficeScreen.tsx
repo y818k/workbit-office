@@ -11,6 +11,7 @@ const WALL_TILE_SOURCES = [
   getAssetSrc('room/wall/wall_bottom_01.png')
 ] as const;
 const WORKDESK_SRC = getAssetSrc('furniture/workdesk/workdesk_wood_01.png');
+const CELL_SIZE_PX = 64;
 const BOOKSHELF_IMAGE_STYLE: CSSProperties = { width: '176px', height: '163px' };
 
 type FixedDecorItem = {
@@ -48,6 +49,17 @@ const FIXED_DECOR: FixedDecorItem[] = [
     size: { width: 1, height: 2 }
   }
 ];
+
+function getFixedDecorStyle(item: FixedDecorItem): CSSProperties {
+  return {
+    position: 'absolute',
+    left: item.position.x * CELL_SIZE_PX,
+    top: item.position.y * CELL_SIZE_PX,
+    width: item.size.width * CELL_SIZE_PX,
+    height: item.size.height * CELL_SIZE_PX,
+    zIndex: item.kind === 'rug' ? 0 : 1
+  };
+}
 
 function getAssetSrc(path: string): string {
   const assetBase = document.querySelector<HTMLMetaElement>('meta[name="workbit-assets-base"]')?.content;
@@ -111,10 +123,7 @@ export function OfficeScreen({ agents, furniture, t }: OfficeScreenProps) {
               <div
                 className={`fixed-decor fixed-decor-${item.kind}`}
                 key={item.id}
-                style={{
-                  gridColumn: `${item.position.x + 1} / span ${item.size.width}`,
-                  gridRow: `${item.position.y + 1} / span ${item.size.height}`
-                }}
+                style={getFixedDecorStyle(item)}
               >
                 <img
                   className="fixed-decor-image"

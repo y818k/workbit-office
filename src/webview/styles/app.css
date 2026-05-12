@@ -199,6 +199,7 @@ select {
 .floor-layer,
 .wall-layer,
 .grid-layer,
+.fixed-decor-layer,
 .furniture-layer,
 .agent-layer,
 .speech-layer {
@@ -280,6 +281,46 @@ select {
 .grid-cell {
   border-right: 1px solid rgba(255, 238, 199, 0.16);
   border-bottom: 1px solid rgba(61, 33, 21, 0.18);
+}
+
+.fixed-decor-layer {
+  z-index: 3;
+}
+
+.agent-layer {
+  z-index: 4;
+}
+
+.furniture-layer {
+  z-index: 5;
+}
+
+.speech-layer {
+  z-index: 6;
+}
+
+.fixed-decor {
+  display: grid;
+  place-items: end center;
+  overflow: visible;
+}
+
+.fixed-decor-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  user-select: none;
+}
+
+.fixed-decor-rug {
+  place-items: stretch;
+  overflow: hidden;
+}
+
+.fixed-decor-rug .fixed-decor-image {
+  object-fit: fill;
+  object-position: center;
 }
 
 .fixed-decor-bookshelf .fixed-decor-image {
