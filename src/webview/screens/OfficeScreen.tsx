@@ -12,6 +12,51 @@ const WALL_TILE_SOURCES = [
 ] as const;
 const WORKDESK_SRC = getAssetSrc('furniture/workdesk/workdesk_wood_01.png');
 
+type FixedDecorItem = {
+  id: string;
+  name: string;
+  kind: 'rug' | 'bookshelf' | 'plant';
+  src: string;
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+};
+
+function getFixedDecorClassName(kind: FixedDecorItem['kind']): string {
+  return [
+    'fixed-decor',
+    `fixed-decor-${kind}`,
+    `fixed-decor--${kind}`,
+    kind === 'bookshelf' ? 'fixed-decor--shelf' : ''
+  ].filter(Boolean).join(' ');
+}
+
+const FIXED_DECOR: FixedDecorItem[] = [
+  {
+    id: 'rug-blue-01',
+    name: 'Blue Rug',
+    kind: 'rug',
+    src: getAssetSrc('room/rugs/rug_blue_01.png'),
+    position: { x: 2, y: 5 },
+    size: { width: 8, height: 3 }
+  },
+  {
+    id: 'bookshelf-wood-01',
+    name: 'Wood Bookshelf',
+    kind: 'bookshelf',
+    src: getAssetSrc('furniture/shelves/bookshelf_wood_01.png'),
+    position: { x: 0, y: 2 },
+    size: { width: 3, height: 2 }
+  },
+  {
+    id: 'plant-pot-01',
+    name: 'Potted Plant',
+    kind: 'plant',
+    src: getAssetSrc('furniture/plants/plant_pot_01.png'),
+    position: { x: 11, y: 7 },
+    size: { width: 1, height: 2 }
+  }
+];
+
 function getAssetSrc(path: string): string {
   const assetBase = document.querySelector<HTMLMetaElement>('meta[name="workbit-assets-base"]')?.content;
 
@@ -68,6 +113,20 @@ export function OfficeScreen({ agents, furniture, t }: OfficeScreenProps) {
           </div>
           <div className="grid-layer" aria-hidden="true">
             {cells.map((cell) => <span className="grid-cell" key={cell} />)}
+          </div>
+          <div className="fixed-decor-layer" aria-hidden="true">
+            {FIXED_DECOR.map((item) => (
+              <div
+                className={getFixedDecorClassName(item.kind)}
+                key={item.id}
+                style={{
+                  gridColumn: `${item.position.x + 1} / span ${item.size.width}`,
+                  gridRow: `${item.position.y + 1} / span ${item.size.height}`
+                }}
+              >
+                <img className="fixed-decor-image" src={item.src} alt="" draggable={false} />
+              </div>
+            ))}
           </div>
           <div className="agent-layer">
             {agents.map((agent) => (

@@ -159,25 +159,47 @@ select {
 }
 
 .office-board {
-  --rear-wall-height: calc(var(--cell) * 3);
-  --side-wall-width: 112px;
-  --floor-vanish-y: 15%;
+  --wall-rows: 3;
   position: relative;
   width: calc(var(--grid-columns) * var(--cell));
   height: calc(var(--grid-rows) * var(--cell));
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 22%, rgba(255, 226, 168, 0.16), transparent 34%),
-    linear-gradient(180deg, #3b2c25 0%, #2a1b16 100%);
+    radial-gradient(circle at 48% 22%, rgba(255, 228, 174, 0.2), transparent 34%),
+    linear-gradient(180deg, #6f4d39 0 calc(var(--cell) * var(--wall-rows)), #9d6f45 calc(var(--cell) * var(--wall-rows)), #c29055 100%);
   border: 4px solid #17100d;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.26), inset 0 0 0 1px rgba(255, 226, 168, 0.08);
   image-rendering: pixelated;
   isolation: isolate;
 }
 
+.office-board::before,
+.office-board::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: calc(var(--cell) * 0.55);
+  pointer-events: none;
+}
+
+.office-board::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(54, 31, 23, 0.28), rgba(112, 72, 47, 0.08), transparent);
+  border-right: 1px solid rgba(255, 226, 168, 0.08);
+}
+
+.office-board::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(54, 31, 23, 0.22), rgba(112, 72, 47, 0.06), transparent);
+  border-left: 1px solid rgba(255, 226, 168, 0.07);
+}
+
 .floor-layer,
 .wall-layer,
 .grid-layer,
+.fixed-decor-layer,
 .furniture-layer,
 .agent-layer,
 .speech-layer {
@@ -186,54 +208,54 @@ select {
   pointer-events: none;
 }
 
-.room-backdrop {
-  z-index: 0;
-  background:
-    linear-gradient(90deg, rgba(42, 25, 18, 0.62), transparent 16%, transparent 84%, rgba(42, 25, 18, 0.62)),
-    linear-gradient(180deg, rgba(92, 56, 37, 0.52), rgba(44, 28, 22, 0.9));
-}
-
-.rear-wall-layer {
-  position: absolute;
-  top: 0;
-  left: var(--side-wall-width);
-  right: var(--side-wall-width);
-  display: grid;
-  height: var(--rear-wall-height);
-  grid-template-columns: repeat(var(--grid-columns), 1fr);
-  grid-template-rows: repeat(3, var(--cell));
-  overflow: hidden;
-  border-bottom: 5px solid rgba(77, 45, 28, 0.88);
-  box-shadow: 0 14px 16px rgba(41, 23, 16, 0.28);
-}
-
-.rear-wall-layer::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(42, 25, 18, 0.34), transparent 16%, transparent 84%, rgba(42, 25, 18, 0.34));
-}
-
+.floor-layer,
+.wall-layer,
+.grid-layer,
+.fixed-decor-layer,
+.furniture-layer,
+.agent-layer,
+.speech-layer,
 .wall-row {
   display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(var(--grid-columns), 1fr);
-}
-
-.wall-row:nth-child(3) {
-  filter: drop-shadow(0 10px 6px rgba(38, 24, 16, 0.24));
-}
-
-.floor-plane {
-  z-index: 2;
-  display: grid;
   grid-template-columns: repeat(var(--grid-columns), var(--cell));
+}
+
+.floor-layer,
+.grid-layer,
+.fixed-decor-layer,
+.furniture-layer,
+.agent-layer,
+.speech-layer {
   grid-template-rows: repeat(var(--grid-rows), var(--cell));
-  pointer-events: none;
 }
 
 .floor-layer {
   z-index: 0;
+  padding-top: calc(var(--cell) * var(--wall-rows));
+  background:
+    linear-gradient(180deg, rgba(255, 238, 194, 0.1), rgba(93, 55, 31, 0.18)),
+    linear-gradient(90deg, rgba(52, 31, 22, 0.12), transparent 14%, transparent 86%, rgba(52, 31, 22, 0.12));
+}
+
+.wall-layer {
+  z-index: 1;
+  align-content: start;
+  height: calc(var(--cell) * var(--wall-rows));
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(62, 35, 25, 0.22), transparent 18%, transparent 82%, rgba(62, 35, 25, 0.18)),
+    #6f4d39;
+  border-bottom: 4px solid rgba(74, 43, 27, 0.82);
+  box-shadow: 0 12px 18px rgba(45, 27, 18, 0.2);
+}
+
+.wall-row {
+  grid-column: 1 / -1;
+  height: var(--cell);
+}
+
+.wall-row:nth-child(3) {
+  filter: drop-shadow(0 8px 5px rgba(38, 24, 16, 0.2));
 }
 
 .floor-tile,
@@ -244,108 +266,100 @@ select {
   user-select: none;
 }
 
-.wall-layer {
-  z-index: 1;
-}
-
-.wall-row {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(var(--grid-columns), var(--cell));
-}
-
-.wall-row:nth-child(3) {
-  filter: drop-shadow(0 10px 6px rgba(38, 24, 16, 0.24));
+.floor-tile {
+  opacity: 0.9;
 }
 
 .grid-layer {
   z-index: 2;
-  opacity: 0.16;
-}
-
-.floor-layer {
-  z-index: 0;
-}
-
-.floor-tile,
-.wall-tile {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-}
-
-.side-wall-layer {
-  z-index: 3;
-}
-
-.side-wall {
-  --side-wall-image: none;
-  position: absolute;
-  top: 0;
-  width: var(--side-wall-width);
-  height: 100%;
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(255, 225, 170, 0.18), rgba(67, 40, 28, 0.2)),
-    #6a4a37;
-  border-color: rgba(39, 23, 17, 0.72);
-  border-style: solid;
-  box-shadow: inset 0 0 16px rgba(35, 20, 15, 0.42);
-}
-
-.side-wall::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--side-wall-image);
-  background-repeat: repeat;
-  background-size: var(--cell) var(--cell);
-  opacity: 0.2;
-}
-
-.side-wall-left {
-  left: 0;
-  border-right-width: 3px;
-}
-
-.side-wall-right {
-  right: 0;
-  border-left-width: 3px;
-}
-
-.side-wall::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(255, 234, 183, 0.1), transparent 48%, rgba(33, 19, 14, 0.28));
-}
-
-.grid-layer {
-  z-index: 1;
-  opacity: 0.035;
+  opacity: 0.015;
   transition: opacity 160ms ease;
 }
 
 .office-board.is-editing .grid-layer {
-  opacity: 0.16;
+  opacity: 0.14;
 }
 
 .grid-cell {
-  border-right: 1px solid rgba(255, 224, 170, 0.22);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+  border-right: 1px solid rgba(255, 238, 199, 0.1);
+  border-bottom: 1px solid rgba(61, 33, 21, 0.12);
 }
 
-.agent-layer {
+.fixed-decor-layer {
   z-index: 3;
 }
 
-.furniture-layer {
+.agent-layer {
   z-index: 4;
 }
 
-.speech-layer {
+.furniture-layer {
   z-index: 5;
+}
+
+.speech-layer {
+  z-index: 6;
+}
+
+.fixed-decor {
+  position: relative;
+  display: grid;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.fixed-decor-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.fixed-decor-rug,
+.fixed-decor--rug {
+  z-index: 0;
+  width: calc(var(--cell) * 7);
+  height: calc(var(--cell) * 2.25);
+  place-self: center;
+}
+
+.fixed-decor-rug .fixed-decor-image,
+.fixed-decor--rug .fixed-decor-image {
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 0 rgba(36, 24, 18, 0.18));
+}
+
+.fixed-decor-bookshelf,
+.fixed-decor--bookshelf,
+.fixed-decor--shelf {
+  z-index: 1;
+  width: calc(var(--cell) * 2.75);
+  height: calc(var(--cell) * 2.55);
+  place-self: end center;
+}
+
+.fixed-decor-bookshelf .fixed-decor-image,
+.fixed-decor--bookshelf .fixed-decor-image,
+.fixed-decor--shelf .fixed-decor-image {
+  object-position: bottom center;
+  filter: drop-shadow(0 8px 0 rgba(42, 24, 16, 0.22));
+}
+
+.fixed-decor-plant,
+.fixed-decor--plant {
+  z-index: 2;
+  width: calc(var(--cell) * 0.95);
+  height: calc(var(--cell) * 1.5);
+  place-self: end center;
+}
+
+.fixed-decor-plant .fixed-decor-image,
+.fixed-decor--plant .fixed-decor-image {
+  object-position: bottom center;
+  filter: drop-shadow(0 7px 0 rgba(42, 24, 16, 0.2));
 }
 
 .furniture {
@@ -360,13 +374,14 @@ select {
 }
 
 .furniture-desk {
-  filter: drop-shadow(0 10px 0 rgba(39, 22, 13, 0.28));
+  transform: translateY(calc(var(--cell) * -0.22));
+  filter: drop-shadow(0 10px 0 rgba(39, 22, 13, 0.24));
 }
 
 .furniture-image {
   width: calc(100% + 14px);
   max-width: none;
-  height: calc(var(--cell) + 28px);
+  height: calc(var(--cell) + 30px);
   object-fit: contain;
   object-position: bottom center;
   user-select: none;
@@ -378,7 +393,8 @@ select {
   flex-direction: column;
   align-items: center;
   justify-content: end;
-  padding-bottom: 2px;
+  padding-bottom: 0;
+  transform: translateY(6px);
 }
 
 .agent strong {
@@ -397,7 +413,7 @@ select {
   background: var(--blue);
   border: 3px solid #17253a;
   border-radius: 10px 10px 6px 6px;
-  box-shadow: inset 0 8px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 8px 0 rgba(255, 255, 255, 0.28), 0 6px 0 rgba(37, 22, 15, 0.18);
 }
 
 .agent-face {
