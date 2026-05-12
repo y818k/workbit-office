@@ -29,7 +29,7 @@ const FIXED_DECOR: FixedDecorItem[] = [
     name: 'Blue Rug',
     kind: 'rug',
     src: getAssetSrc('room/rugs/rug_blue_01.png'),
-    position: { x: 2, y: 5 },
+    position: { x: 2, y: 4 },
     size: { width: 8, height: 3 }
   },
   {
