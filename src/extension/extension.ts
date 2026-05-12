@@ -83,9 +83,11 @@ class WorkbitOfficePanel {
       }
     );
     html = html.replace(/<script /g, `<script nonce="${nonce}" `);
+    const webviewAssetsUri = this.panel.webview.asWebviewUri(vscode.Uri.joinPath(webviewDistUri, 'assets'));
+
     html = html.replace(
       '</head>',
-      `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data:; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}'; font-src ${cspSource};"></head>`
+      `<meta name="workbit-assets-base" content="${webviewAssetsUri}"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data:; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}'; font-src ${cspSource};"></head>`
     );
 
     return html;
