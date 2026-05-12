@@ -1,0 +1,6 @@
+agent_work_front_typing.png
+agent_work_front_thinking.png
+agent_work_front_testing.png
+agent_work_front_waiting.png
+agent_work_left_typing.png
+agent_work_right_typing.png

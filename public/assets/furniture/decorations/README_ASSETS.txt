@@ -1,0 +1,9 @@
+clock_wall_01.png
+whiteboard_01.png
+picture_frame_01.png
+corkboard_01.png
+mug_01.png
+books_01.png
+penstand_01.png
+document_stack_01.png
+trash_can_01.png

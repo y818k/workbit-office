@@ -1,0 +1,6 @@
+sofa_green_front_01.png
+sofa_green_left_01.png
+sofa_green_right_01.png
+sofa_blue_front_01.png
+sofa_blue_left_01.png
+sofa_blue_right_01.png

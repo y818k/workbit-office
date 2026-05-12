@@ -1,0 +1,5 @@
+agent_emotion_happy.png
+agent_emotion_error.png
+agent_emotion_sleepy.png
+agent_emotion_surprised.png
+agent_emotion_thinking.png

@@ -1,0 +1,6 @@
+agent_sit_front_01.png
+agent_sit_left_01.png
+agent_sit_right_01.png
+agent_sofa_front_01.png
+agent_sofa_left_01.png
+agent_sofa_right_01.png
