@@ -11,6 +11,7 @@ const WALL_TILE_SOURCES = [
   getAssetSrc('room/wall/wall_bottom_01.png')
 ] as const;
 const WORKDESK_SRC = getAssetSrc('furniture/workdesk/workdesk_wood_01.png');
+const BOOKSHELF_IMAGE_STYLE: CSSProperties = { width: '176px', height: '163px' };
 
 type FixedDecorItem = {
   id: string;
@@ -115,7 +116,13 @@ export function OfficeScreen({ agents, furniture, t }: OfficeScreenProps) {
                   gridRow: `${item.position.y + 1} / span ${item.size.height}`
                 }}
               >
-                <img className="fixed-decor-image" src={item.src} alt="" draggable={false} />
+                <img
+                  className="fixed-decor-image"
+                  src={item.src}
+                  alt=""
+                  draggable={false}
+                  style={item.kind === 'bookshelf' ? BOOKSHELF_IMAGE_STYLE : undefined}
+                />
               </div>
             ))}
           </div>
