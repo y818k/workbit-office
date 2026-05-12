@@ -199,7 +199,6 @@ select {
 .floor-layer,
 .wall-layer,
 .grid-layer,
-.fixed-decor-layer,
 .furniture-layer,
 .agent-layer,
 .speech-layer {
@@ -211,7 +210,6 @@ select {
 .floor-layer,
 .wall-layer,
 .grid-layer,
-.fixed-decor-layer,
 .furniture-layer,
 .agent-layer,
 .speech-layer,
@@ -222,7 +220,6 @@ select {
 
 .floor-layer,
 .grid-layer,
-.fixed-decor-layer,
 .furniture-layer,
 .agent-layer,
 .speech-layer {
@@ -272,7 +269,7 @@ select {
 
 .grid-layer {
   z-index: 2;
-  opacity: 0.015;
+  opacity: 0.025;
   transition: opacity 160ms ease;
 }
 
@@ -281,61 +278,13 @@ select {
 }
 
 .grid-cell {
-  border-right: 1px solid rgba(255, 238, 199, 0.1);
-  border-bottom: 1px solid rgba(61, 33, 21, 0.12);
-}
-
-.fixed-decor-layer {
-  z-index: 3;
-}
-
-.agent-layer {
-  z-index: 4;
-}
-
-.furniture-layer {
-  z-index: 5;
-}
-
-.speech-layer {
-  z-index: 6;
-}
-
-.fixed-decor {
-  position: relative;
-  display: grid;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.fixed-decor-image {
-  max-width: none;
-  object-fit: contain;
-  user-select: none;
-}
-
-.fixed-decor-rug {
-  place-items: center;
-  z-index: 0;
-}
-
-.fixed-decor-rug .fixed-decor-image {
-  width: calc(var(--cell) * 7);
-  height: calc(var(--cell) * 2.25);
-  object-fit: fill;
-  opacity: 0.9;
-  filter: drop-shadow(0 4px 0 rgba(36, 24, 18, 0.18));
-}
-
-.fixed-decor-bookshelf {
-  z-index: 1;
-  align-items: end;
-  justify-items: center;
+  border-right: 1px solid rgba(255, 238, 199, 0.16);
+  border-bottom: 1px solid rgba(61, 33, 21, 0.18);
 }
 
 .fixed-decor-bookshelf .fixed-decor-image {
-  width: calc(var(--cell) * 2.55);
-  height: calc(var(--cell) * 2.45);
+  width: calc(100% + 18px);
+  height: calc(100% + 18px);
   object-position: bottom center;
   filter: drop-shadow(0 8px 0 rgba(42, 24, 16, 0.22));
 }
@@ -347,8 +296,8 @@ select {
 }
 
 .fixed-decor-plant .fixed-decor-image {
-  width: calc(var(--cell) * 0.9);
-  height: calc(var(--cell) * 1.45);
+  width: calc(var(--cell) * 1.15);
+  height: calc(var(--cell) * 1.75);
   object-position: bottom center;
   filter: drop-shadow(0 7px 0 rgba(42, 24, 16, 0.2));
 }
@@ -365,7 +314,6 @@ select {
 }
 
 .furniture-desk {
-  transform: translateY(calc(var(--cell) * -0.22));
   filter: drop-shadow(0 10px 0 rgba(39, 22, 13, 0.24));
 }
 
