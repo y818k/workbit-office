@@ -198,6 +198,7 @@ select {
 
 .floor-layer,
 .wall-layer,
+.side-wall-layer,
 .grid-layer,
 .fixed-decor-layer,
 .furniture-layer,
@@ -247,6 +248,75 @@ select {
   box-shadow: 0 12px 18px rgba(45, 27, 18, 0.2);
 }
 
+.side-wall-layer {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.side-wall {
+  position: absolute;
+  top: calc(var(--cell) * var(--wall-rows));
+  height: calc(100% - (var(--cell) * var(--wall-rows)));
+  width: calc(var(--cell) * 1.7);
+  background-image:
+    linear-gradient(180deg, rgba(242, 214, 170, 0.1), rgba(148, 97, 64, 0.18) 52%, rgba(80, 50, 35, 0.2)),
+    url('/assets/room/wall/wall_middle_01.png');
+  background-size: calc(var(--cell) * 0.8) calc(var(--cell) * 0.8);
+  background-repeat: repeat-y;
+  background-blend-mode: multiply;
+  border-top: 3px solid rgba(101, 60, 39, 0.68);
+  filter: saturate(0.88) brightness(0.9);
+}
+
+.side-wall::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--cell) * 0.25);
+  background: linear-gradient(180deg, rgba(104, 66, 43, 0), rgba(70, 42, 29, 0.34));
+  pointer-events: none;
+}
+
+.side-wall-left {
+  left: 0px;
+  clip-path: polygon(0 0, 95% 0, 78% 100%, 0 100%);
+  background-position: right top;
+  box-shadow:
+    inset -16px 0 20px rgba(67, 40, 27, 0.24),
+    inset -3px 0 0 rgba(56, 32, 21, 0.2),
+    inset 0 0 0 1px rgba(255, 226, 168, 0.04);
+}
+
+.side-wall-right {
+  right: 0px;
+  clip-path: polygon(5% 0, 100% 0, 100% 100%, 22% 100%);
+  background-position: left top;
+  box-shadow:
+    inset 16px 0 20px rgba(67, 40, 27, 0.22),
+    inset 3px 0 0 rgba(56, 32, 21, 0.18),
+    inset 0 0 0 1px rgba(255, 226, 168, 0.04);
+}
+
+.side-wall-left::before,
+.side-wall-right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: calc(var(--cell) * 0.18);
+  width: 1px;
+  background: rgba(60, 35, 23, 0.4);
+}
+
+.side-wall-left::before {
+  right: 24%;
+}
+
+.side-wall-right::before {
+  left: 24%;
+}
+
 .wall-row {
   grid-column: 1 / -1;
   height: var(--cell);
@@ -269,7 +339,7 @@ select {
 }
 
 .grid-layer {
-  z-index: 2;
+  z-index: 3;
   opacity: 0.025;
   transition: opacity 160ms ease;
 }
@@ -284,19 +354,19 @@ select {
 }
 
 .fixed-decor-layer {
-  z-index: 3;
-}
-
-.agent-layer {
   z-index: 4;
 }
 
-.furniture-layer {
+.agent-layer {
   z-index: 5;
 }
 
-.speech-layer {
+.furniture-layer {
   z-index: 6;
+}
+
+.speech-layer {
+  z-index: 7;
 }
 
 .fixed-decor {
