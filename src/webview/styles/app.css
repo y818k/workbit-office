@@ -198,6 +198,7 @@ select {
 
 .floor-layer,
 .wall-layer,
+.side-wall-layer,
 .grid-layer,
 .fixed-decor-layer,
 .furniture-layer,
@@ -247,6 +248,41 @@ select {
   box-shadow: 0 12px 18px rgba(45, 27, 18, 0.2);
 }
 
+.side-wall-layer {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.side-wall {
+  position: absolute;
+  top: calc(var(--cell) * var(--wall-rows));
+  bottom: 0;
+  width: calc(var(--cell) * 1.12);
+  background-image: url('/assets/room/wall/wall_middle_01.png');
+  background-size: var(--cell) var(--cell);
+  background-repeat: repeat-y;
+  border-top: 3px solid rgba(104, 62, 40, 0.88);
+  box-shadow: inset 0 0 0 1px rgba(255, 226, 168, 0.08);
+}
+
+.side-wall-left {
+  left: 0;
+  transform: skewY(-2.2deg);
+  transform-origin: left top;
+  background-position: left top;
+  box-shadow: inset -10px 0 14px rgba(60, 34, 22, 0.24), inset 0 0 0 1px rgba(255, 226, 168, 0.06);
+  border-right: 2px solid rgba(78, 46, 29, 0.46);
+}
+
+.side-wall-right {
+  right: 0;
+  transform: skewY(2.2deg);
+  transform-origin: right top;
+  background-position: right top;
+  box-shadow: inset 10px 0 14px rgba(60, 34, 22, 0.2), inset 0 0 0 1px rgba(255, 226, 168, 0.07);
+  border-left: 2px solid rgba(78, 46, 29, 0.44);
+}
+
 .wall-row {
   grid-column: 1 / -1;
   height: var(--cell);
@@ -269,7 +305,7 @@ select {
 }
 
 .grid-layer {
-  z-index: 2;
+  z-index: 3;
   opacity: 0.025;
   transition: opacity 160ms ease;
 }
@@ -284,19 +320,19 @@ select {
 }
 
 .fixed-decor-layer {
-  z-index: 3;
-}
-
-.agent-layer {
   z-index: 4;
 }
 
-.furniture-layer {
+.agent-layer {
   z-index: 5;
 }
 
-.speech-layer {
+.furniture-layer {
   z-index: 6;
+}
+
+.speech-layer {
+  z-index: 7;
 }
 
 .fixed-decor {
