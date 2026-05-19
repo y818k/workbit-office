@@ -12,6 +12,7 @@ const WALL_TILE_SOURCES = [
 ] as const;
 const WORKDESK_SRC = getAssetSrc('furniture/workdesk/workdesk_wood_01.png');
 const CELL_SIZE_PX = 64;
+const RUG_DISPLAY_HEIGHT_PX = 240;
 const BOOKSHELF_IMAGE_STYLE: CSSProperties = { width: '176px', height: '163px' };
 
 type FixedDecorItem = {
@@ -56,7 +57,7 @@ function getFixedDecorStyle(item: FixedDecorItem): CSSProperties {
     left: item.position.x * CELL_SIZE_PX,
     top: item.position.y * CELL_SIZE_PX,
     width: item.size.width * CELL_SIZE_PX,
-    height: item.size.height * CELL_SIZE_PX,
+    height: item.kind === 'rug' ? RUG_DISPLAY_HEIGHT_PX : item.size.height * CELL_SIZE_PX,
     zIndex: item.kind === 'rug' ? 0 : 1
   };
 }
