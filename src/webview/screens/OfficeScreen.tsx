@@ -116,6 +116,10 @@ export function OfficeScreen({ agents, furniture, t }: OfficeScreenProps) {
               </div>
             ))}
           </div>
+          <div className="side-wall-layer" aria-hidden="true">
+            <div className="side-wall side-wall-left" />
+            <div className="side-wall side-wall-right" />
+          </div>
           <div className="grid-layer" aria-hidden="true">
             {cells.map((cell) => <span className="grid-cell" key={cell} />)}
           </div>

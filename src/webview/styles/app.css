@@ -198,6 +198,7 @@ select {
 
 .floor-layer,
 .wall-layer,
+.side-wall-layer,
 .grid-layer,
 .fixed-decor-layer,
 .furniture-layer,
@@ -247,6 +248,58 @@ select {
   box-shadow: 0 12px 18px rgba(45, 27, 18, 0.2);
 }
 
+.side-wall-layer {
+  z-index: 2;
+  overflow: hidden;
+}
+
+.side-wall {
+  position: absolute;
+  top: calc(var(--cell) * var(--wall-rows));
+  bottom: 0;
+  width: calc(var(--cell) * 0.68);
+  background-image:
+    linear-gradient(180deg, rgba(255, 228, 178, 0.08), rgba(86, 52, 35, 0.2) 72%, rgba(64, 39, 27, 0.28)),
+    url('/assets/room/wall/wall_middle_01.png');
+  background-size: var(--cell) var(--cell);
+  background-repeat: repeat-y;
+  border-top: 2px solid rgba(104, 62, 40, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(255, 226, 168, 0.05);
+}
+
+.side-wall::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: calc(var(--cell) * 0.4);
+  background: linear-gradient(180deg, rgba(117, 76, 50, 0), rgba(70, 42, 29, 0.28));
+  pointer-events: none;
+}
+
+.side-wall-left {
+  left: 0;
+  transform: skewY(-1.2deg);
+  transform-origin: left top;
+  background-position: left top;
+  box-shadow:
+    inset -7px 0 11px rgba(60, 34, 22, 0.2),
+    inset 0 0 0 1px rgba(255, 226, 168, 0.05);
+  border-right: 1px solid rgba(78, 46, 29, 0.34);
+}
+
+.side-wall-right {
+  right: 0;
+  transform: skewY(1.2deg);
+  transform-origin: right top;
+  background-position: right top;
+  box-shadow:
+    inset 7px 0 11px rgba(60, 34, 22, 0.18),
+    inset 0 0 0 1px rgba(255, 226, 168, 0.05);
+  border-left: 1px solid rgba(78, 46, 29, 0.32);
+}
+
 .wall-row {
   grid-column: 1 / -1;
   height: var(--cell);
@@ -269,7 +322,7 @@ select {
 }
 
 .grid-layer {
-  z-index: 2;
+  z-index: 3;
   opacity: 0.025;
   transition: opacity 160ms ease;
 }
@@ -284,19 +337,19 @@ select {
 }
 
 .fixed-decor-layer {
-  z-index: 3;
-}
-
-.agent-layer {
   z-index: 4;
 }
 
-.furniture-layer {
+.agent-layer {
   z-index: 5;
 }
 
-.speech-layer {
+.furniture-layer {
   z-index: 6;
+}
+
+.speech-layer {
+  z-index: 7;
 }
 
 .fixed-decor {
