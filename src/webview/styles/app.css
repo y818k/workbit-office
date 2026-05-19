@@ -202,7 +202,7 @@ select {
 .fixed-decor-layer,
 .furniture-layer,
 .agent-layer,
-speech-layer {
+.speech-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
