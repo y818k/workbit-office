@@ -202,7 +202,7 @@ select {
 .fixed-decor-layer,
 .furniture-layer,
 .agent-layer,
-.speech-layer {
+speech-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -314,13 +314,17 @@ select {
 }
 
 .fixed-decor-rug {
-  place-items: stretch;
-  overflow: hidden;
+  align-items: start;
+  justify-items: stretch;
+  overflow: visible;
 }
 
 .fixed-decor-rug .fixed-decor-image {
-  object-fit: fill;
-  object-position: center;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: top center;
 }
 
 .fixed-decor-bookshelf .fixed-decor-image {
